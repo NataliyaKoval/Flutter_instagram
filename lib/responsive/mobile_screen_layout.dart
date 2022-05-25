@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_flutter/providers/user_provider.dart';
+import 'package:instagram_flutter/screens/add_post_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
+import 'package:instagram_flutter/utils/global_variables.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart' as model;
 import '../utils/colors.dart';
@@ -18,11 +20,13 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   int _page = 0;
 
   late PageController pageController;
+
   @override
   void initState() {
     super.initState();
     pageController = PageController();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -49,14 +53,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         controller: pageController,
         onPageChanged: onPageChanged,
         physics: const NeverScrollableScrollPhysics(),
-        children: [
-Text('111111111111'),
-Text('2222222222'),
-Text('4444444444'),
-Text('66666666666'),
-Text('777777777'),
-
-        ],
+        children: homeScreenItems,
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: mobileBackgroundColor,
@@ -64,23 +61,38 @@ Text('777777777'),
         onTap: navigationTapped,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: _page == 0 ? primaryColor : secondaryColor,),
+            icon: Icon(
+              Icons.home,
+              color: _page == 0 ? primaryColor : secondaryColor,
+            ),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search, color: _page == 1 ? primaryColor : secondaryColor,),
+            icon: Icon(
+              Icons.search,
+              color: _page == 1 ? primaryColor : secondaryColor,
+            ),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle, color: _page == 2 ? primaryColor : secondaryColor,),
+            icon: Icon(
+              Icons.add_circle,
+              color: _page == 2 ? primaryColor : secondaryColor,
+            ),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite, color: _page == 3 ? primaryColor : secondaryColor,),
+            icon: Icon(
+              Icons.favorite,
+              color: _page == 3 ? primaryColor : secondaryColor,
+            ),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person, color: _page == 4 ? primaryColor : secondaryColor,),
+            icon: Icon(
+              Icons.person,
+              color: _page == 4 ? primaryColor : secondaryColor,
+            ),
             label: '',
           ),
         ],
