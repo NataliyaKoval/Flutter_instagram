@@ -20,19 +20,36 @@ class AddPostScreen extends StatefulWidget {
 class _AddPostScreenState extends State<AddPostScreen> {
   Uint8List? _file;
   TextEditingController _descriptionController = TextEditingController();
+  bool _isLoading = false;
 
   void postImage(String uid, String username, String profImage) async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       String res = await FirestoreMethods().uploadPost(
           _descriptionController.text, _file!, uid, username, profImage);
       if (res == 'success') {
+        setState(() {
+          _isLoading = false;
+        });
         showSnackBar('Posted!', context);
+        clearImage();
       } else {
+        setState(() {
+          _isLoading = false;
+        });
         showSnackBar(res, context);
       }
     } catch (err) {
       showSnackBar(err.toString(), context);
     }
+  }
+
+  void clearImage() {
+    setState(() {
+      _file = null;
+    });
   }
 
   _selectImage(context) async {
@@ -97,8 +114,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
             appBar: AppBar(
               backgroundColor: mobileBackgroundColor,
               leading: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.arrow_back),
+                onPressed: clearImage,
+                icon: const Icon(Icons.arrow_back),
               ),
               title: const Text('Post to'),
               actions: [
@@ -121,6 +138,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
             ),
             body: Column(
               children: [
+                _isLoading
+                    ? const LinearProgressIndicator()
+                    : const Padding(
+                        padding: EdgeInsets.only(top: 0),
+                      ),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
